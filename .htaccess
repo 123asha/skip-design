@@ -1,0 +1,25 @@
+# SPA fallback for client-side routing (Apache / Beget).
+# Real files and directories (assets, lead.php, etc.) are served as-is;
+# every other path falls back to index.html so deep links like /cases work.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Let existing files and directories through untouched.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else → the SPA entry point.
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Light caching for hashed assets (safe — filenames change on each build).
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/png  "access plus 30 days"
+  ExpiresByType video/mp4  "access plus 30 days"
+  ExpiresByType text/css   "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+</IfModule>

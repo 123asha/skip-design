@@ -1,17 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skip Design</title>
-    <style>html, body { height: 100%; margin: 0; background: #fff; }</style>
-    <script>
-      // GitHub Pages SPA redirect: store the full path so the app can restore it.
-      // The app reads sessionStorage.redirect on startup (see App.tsx stripBase).
-      var path = window.location.pathname + window.location.search + window.location.hash;
-      sessionStorage.setItem('ghpages_redirect', path);
-      window.location.replace('/skip-design/');
-    </script>
+    <link rel="icon" type="image/png" href="/skip-design/fav-black-nobg.png" />
+    <link rel="apple-touch-icon" href="/skip-design/fav-black-nobg.png" />
+    <title>Skip Design — студия цифрового дизайна</title>
+    <meta name="description" content="Skip Design — студия цифрового дизайна. Бренд-стратегия, визуальные системы и цифровой дизайн для быстрорастущих компаний." />
+    <meta name="theme-color" content="#ffffff" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Skip Design" />
+    <meta property="og:title" content="Skip Design — студия цифрового дизайна" />
+    <meta property="og:description" content="Бренд-стратегия, визуальные системы и цифровой дизайн для быстрорастущих компаний." />
+    <meta name="twitter:card" content="summary" />
+    <style>html, body { height: 100%; margin: 0; background: #fff; } #root { height: 100%; }</style>
+    <script type="module" crossorigin src="/skip-design/assets/index-MJzSF5uP.js"></script>
+    <link rel="stylesheet" crossorigin href="/skip-design/assets/index-BMC3LnRp.css">
   </head>
-  <body></body>
+
+  <body>
+    <div id="root"></div>
+    <!-- TEMP diagnostic: if the app fails to mount (e.g. Safari), show the error
+         on the page instead of a blank white screen. Remove once resolved. -->
+    <script>
+      (function () {
+        function show(msg) {
+          var r = document.getElementById('root');
+          if (r && r.children.length === 0) {
+            r.innerHTML = '<pre style="margin:0;padding:20px;font:13px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;color:#b00020">⚠️ Ошибка загрузки:\n\n' + msg + '</pre>';
+          }
+        }
+        window.addEventListener('error', function (e) {
+          show((e && e.message ? e.message : String(e)) + (e && e.filename ? '\n' + e.filename + ':' + e.lineno + ':' + e.colno : ''));
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+          show('Promise rejection: ' + (e && e.reason ? (e.reason.message || e.reason) : 'unknown'));
+        });
+      })();
+    </script>
+  </body>
 </html>

@@ -5,6 +5,16 @@
   RewriteEngine On
   RewriteBase /
 
+  # Addresses of the old site (Webflow export) → their new pages, for good
+  RewriteRule ^ae-platform-plugin\.html$ /plugin-aliexpress/ [R=301,L]
+  RewriteRule ^ae-platform\.html$ /ae-platform/ [R=301,L]
+  RewriteRule ^ae-pllatforn-landing\.html$ /aliexpress-landing/ [R=301,L]
+  RewriteRule ^room-3d\.html$ /binaroom/ [R=301,L]
+  RewriteRule ^(branding|ux-ui|web)\.html$ /services/ [R=301,L]
+  RewriteRule ^(crypto-node\.html|special-project/?)$ /cases/ [R=301,L]
+  RewriteRule ^information\.html$ / [R=301,L]
+  RewriteRule ^policy\.html$ /policy/ [R=301,L]
+
   # Let existing files and directories through untouched.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d

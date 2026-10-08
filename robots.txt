@@ -1,4 +1,2 @@
 User-agent: *
-Allow: /
-
-Sitemap: https://123asha.github.io/skip-design/sitemap.xml
+Disallow: /

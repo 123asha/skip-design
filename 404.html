@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skip Design</title>
-    <style>html, body { height: 100%; margin: 0; background: #fff; }</style>
-    <script>
-      // GitHub Pages SPA redirect: store the full path so the app can restore it.
-      // The app reads sessionStorage.redirect on startup (see App.tsx stripBase).
-      var path = window.location.pathname + window.location.search + window.location.hash;
-      sessionStorage.setItem('ghpages_redirect', path);
-      window.location.replace('/skip-design/');
-    </script>
-  </head>
-  <body></body>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Skip Design</title>
+<meta name="robots" content="noindex, nofollow">
+<script>location.replace('https://skip.design' + location.pathname.replace(/^\/skip-design/, '') + location.search + location.hash)</script>
+</head>
+<body><p>Сайт переехал: <a href="https://skip.design/">skip.design</a></p></body>
 </html>

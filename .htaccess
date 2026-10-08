@@ -5,6 +5,13 @@
   RewriteEngine On
   RewriteBase /
 
+  # One address: https://skip.design — www and plain http are sent there
+  RewriteCond %{HTTP_HOST} ^www\.skip\.design$ [NC]
+  RewriteRule ^(.*)$ https://skip.design/$1 [R=301,L]
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
   # Addresses of the old site (Webflow export) → their new pages, for good
   RewriteRule ^ae-platform-plugin\.html$ /plugin-aliexpress/ [R=301,L]
   RewriteRule ^ae-platform\.html$ /ae-platform/ [R=301,L]

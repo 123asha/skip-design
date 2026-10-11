@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dirty Hands Background</title>
+<style>
+  :root { --bg: #ecebe8; --muted: #8d8a85; --ink: #161616; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #ecebe8; --muted: #8d8a85; --ink: #161616; }
+  }
+  :root[data-theme="dark"] { --bg: #ecebe8; --muted: #8d8a85; --ink: #161616; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { background: var(--bg); color: var(--ink); font: 13px/1.3 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; position: relative; cursor: grab; user-select: none; -webkit-user-select: none; }
+  body:active { cursor: grabbing; }
+  .dirt-layer { position: absolute; left: 0; top: 0; pointer-events: none; }
+  .hint { position: fixed; left: 20px; bottom: 20px; color: var(--muted); transition: opacity .6s; pointer-events: none; }
+</style>
+</head>
+<body>
+<span class="hint" id="hint">Клик — мазок пальцем · удерживайте — ладонь · тяните — мазок глиной</span>
+<script src="dirt.js"></script>
+<script>
+  DirtyHands.init({ layer: document.body, seed: 42, onTouch: () => { document.getElementById('hint').style.opacity = 0; } });
+  window.ready = true;
+</script>
+</body>
+</html>

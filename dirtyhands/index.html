@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dirty Hands</title>
+<style>
+  @font-face { font-family: "CoFo Sans"; src: url("CoFoSans-Regular450.woff2") format("woff2"); font-weight: 400 500; font-display: swap; }
+
+  :root {
+    --bg: #ffffff;
+    --ink: #0b0b0b;
+    --rule: #e4e4e4;
+    --ph: #ece9e4;
+    --ph-ink: #a59f96;
+    --text: clamp(13px, 1.12vw, 22px);
+    /* layout grid: 6 columns, 20px gaps, 20px margins (Cmd/Ctrl + G shows it) */
+    --m: 20px; --g: 20px;
+    --W: 100vw;                                           /* page width without scrollbar, set from JS */
+    --c: calc((var(--W) - 2 * var(--m) - 5 * var(--g)) / 6);   /* one column */
+    --h1: calc(164.21 / 1440 * 100vw);                    /* h1: 164.21px on a 1440 frame */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #ffffff; --ink: #0b0b0b; }
+  }
+  :root[data-theme="dark"] { --bg: #ffffff; --ink: #0b0b0b; }
+
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  html, body { margin: 0; color: var(--ink); }
+  body {
+    font-family: "CoFo Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--text); line-height: 1.02; -webkit-font-smoothing: antialiased;
+    position: relative; overflow-x: hidden;
+  }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: .18em; }
+
+  /* helpers: --k = column index (0..5), --s = span in columns */
+  .gx { left: calc(var(--m) + var(--k, 0) * (var(--c) + var(--g))); }
+  .gw { width: calc(var(--s, 1) * var(--c) + (var(--s, 1) - 1) * var(--g)); }
+  .grid6 { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--g); padding: 0 var(--m); }
+
+  /* clay lies over pictures and placeholders, text sits above the clay and inverts over it */
+  .dirt-layer { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; }
+  .hero > .dirt-layer { z-index: 3; position: absolute !important; left: 0; top: 0; }
+  main { position: relative; }
+  .topnav, .menu, .founders .copy, .foot { position: relative; z-index: 4; }
+  .topnav, .menu, .hero .cats, .over, .founders .copy, .stack, .cap, .cap2, .foot {
+    mix-blend-mode: difference; color: #f4f4f4;       /* white + difference = black on white, light over clay */
+  }
+  .t { max-width: 10.4em; }
+  .t2 { max-width: 17.5em; }
+  .num { color: #565656; }                              /* = #a9a9a9 after inversion */
+  .ph { background: var(--ph); color: var(--ph-ink); display: grid; place-items: center; text-align: center; }
+  .title { margin: 0; font-weight: 450; font-size: var(--h1); line-height: .92; letter-spacing: -.06em; white-space: nowrap; }
+
+  /* ---------- brand title: 20px from the bottom, pinned until the end of the second block ---------- */
+  .brand {
+    position: fixed; left: var(--m); bottom: 20px; z-index: 4; pointer-events: none;
+    mix-blend-mode: difference; color: #f4f4f4; will-change: transform;
+  }
+
+  /* ---------- 0. intro: menu, six works (one per column) ---------- */
+  .intro { position: relative; height: 64.5vw; }
+  .topnav, .menu { position: absolute; left: 0; right: 0; }
+  .topnav { top: 1.2vw; }
+  .topnav a:nth-child(2) { grid-column: 2; }
+  .menu { top: 46.4vw; }
+  .menu a:nth-child(1) { grid-column: 4; } .menu a:nth-child(2) { grid-column: 5; } .menu a:nth-child(3) { grid-column: 6; }
+  .strip { position: absolute; left: 0; right: 0; top: 3.7vw; display: flex; align-items: flex-start; gap: var(--g); padding: 0 var(--m); pointer-events: none; }
+  .strip .slot { flex: 1 1 0; min-width: 0; aspect-ratio: var(--ar); }
+  .strip .slot, .fly .card, .panel .card { background: var(--gr, #d8d6d2); color: #8f8b85; display: grid; place-items: center; }
+
+  .fly { position: fixed; inset: 0; z-index: 4; pointer-events: none; }
+  .fly .card { position: absolute; left: 0; top: 0; will-change: transform, clip-path; }
+  .fx .strip .slot, .fx .hero .panel { visibility: hidden; }
+  .fx .hero .panel { background: transparent; }
+  .panel .card.in { position: absolute; left: 0; top: 50%; width: 100%; transform: translateY(-50%); }
+
+  /* ---------- 1. ruled second screen: categories hug the picture ---------- */
+  .hero-wrap { position: relative; }
+  .fx .hero-wrap { height: calc(56vw + 240vh); }
+  .hero { position: relative; aspect-ratio: 2000 / 1120; background: var(--bg); }
+  .fx .hero { position: sticky; top: 0; }
+  .hero > * { position: absolute; }
+  .rules {
+    left: var(--m); right: var(--m); top: 5.3%; bottom: 6.6%; z-index: 0;
+    background: repeating-linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px 1.23vw);
+  }
+  .cats { list-style: none; margin: 0; padding: 0; inset: 0; z-index: 4; pointer-events: none; }
+  .cat { position: absolute; left: 0; right: 0; top: var(--y); }
+  .cat .body { position: absolute; left: calc(var(--m) + 3 * (var(--c) + var(--g))); top: 0; display: flex; will-change: transform; pointer-events: auto; }
+  .cat .num { width: 3.4em; flex: none; color: #565656; }
+  .cat .date { position: absolute; right: var(--m); top: 0; pointer-events: auto; }
+  .cat .t, .cat .date { transition: color .35s; }
+  .fx .cat:not(.on) .t, .fx .cat:not(.on) .date { color: #545454; }   /* = #ababab after inversion */
+  .panel { --k: 2; top: 28%; width: var(--c); aspect-ratio: 4 / 5; background: #d8d6d2; z-index: 2; }
+  .over { z-index: 4; }
+
+  /* ---------- 2. founders ---------- */
+  .founders { padding: 3.5vw var(--m) 6vw; }
+  .founders .photo { aspect-ratio: 1756 / 836; width: 100%; }
+  .founders .copy { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--g); margin-top: 5.3vw; }
+  .founders .c1 { grid-column: 1 / 3; }
+  .founders .col { grid-column: 3 / 5; display: grid; justify-items: start; row-gap: .9em; padding-top: 3.1vw; }
+  .founders .shop { margin-top: 1.6em; }
+
+  /* ---------- 3. wheel: words roll through the middle like an alarm-clock picker ---------- */
+  .wheel-wrap { position: relative; height: calc(100vh + (var(--n) - 1) * 26vh); }
+  .stack {
+    position: sticky; top: 0; height: 100vh; overflow: hidden; align-items: center;
+    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--g); padding: 0 var(--m);
+  }
+  .stack .lead { grid-column: 1 / 3; font-size: calc(var(--text) * 1.05); }
+  .drum { grid-column: 3 / 7; position: relative; height: 100%; }
+  .words { list-style: none; margin: 0; padding: 0; position: relative; height: 100%; }
+  .w {
+    position: absolute; left: 0; top: 50%; white-space: nowrap;     /* on the left line of the column */
+    font-size: 9.3vw; line-height: .92; letter-spacing: -.06em; font-weight: 450;
+    transform-origin: 0 50%; will-change: transform, color;
+  }
+  .no-wheel .wheel-wrap { height: auto; }
+  .no-wheel .stack { position: relative; height: auto; padding: 6vw var(--m); }
+  .no-wheel .drum { height: auto; }
+  .no-wheel .words { display: grid; row-gap: 1.2vw; }
+  .no-wheel .w { position: static; }
+
+  /* ---------- 4. interiors ---------- */
+  .interiors { position: relative; height: 82vw; }
+  .interiors > * { position: absolute; }
+  .cap, .cap2 { z-index: 4; }
+  .cap { --k: 0; --s: 2; top: 6.4vw; padding: .45em 0 .5em 0; border-top: 1px solid var(--rule); }
+  .cap::after { content: ""; position: absolute; left: 0; right: 0; top: 1.45em; border-top: 1px solid var(--rule); }
+  .i1 { --k: 1; --s: 3; top: 9vw; aspect-ratio: 870 / 616; }
+  .cap2 { --k: 2; --s: 2; top: 45.2vw; }
+  .i2 { --k: 0; --s: 2; top: 47vw; aspect-ratio: 692 / 520; }
+  .i3 { --k: 3; --s: 2; top: 60.2vw; aspect-ratio: 692 / 440; }
+
+  .foot { color: #6f6f6f; padding-bottom: 4.5vw; }
+  .foot > :nth-child(2) { grid-column: 3; } .foot > :nth-child(3) { grid-column: 5; }
+
+  /* ---------- layout grid overlay ---------- */
+  .grid-overlay { position: fixed; inset: 0; z-index: 9; pointer-events: none; display: none; }
+  .grid-overlay.on { display: grid; }
+  .grid-overlay i { background: rgba(255, 64, 64, .09); border-left: 1px solid rgba(255, 64, 64, .28); border-right: 1px solid rgba(255, 64, 64, .28); }
+
+  /* ---------- mobile ---------- */
+  @media (max-width: 760px) {
+    :root { --text: 15px; --h1: 19vw; }
+    .intro { height: auto; padding: 16px 0 28px; display: grid; gap: 18px; }
+    .topnav, .menu { position: static; }
+    .menu a:nth-child(n) { grid-column: auto; }
+    .menu { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .strip { position: static; overflow-x: auto; pointer-events: auto; scroll-snap-type: x mandatory; }
+    .strip .slot { flex: 0 0 46%; scroll-snap-align: start; }
+    .hero { aspect-ratio: auto; padding: 24px var(--m) 32px; display: grid; gap: 14px; }
+    .hero > * { position: static; }
+    .rules { position: absolute !important; inset: 0; background-image: repeating-linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px 22px); }
+    .cats { position: static !important; display: grid; gap: 14px; }
+    .cat, .cat .body, .cat .date { position: static; }
+    .cat { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .panel { width: 62%; justify-self: center; margin: 8px 0; order: -1; }
+    .over { position: static !important; }
+    .founders { padding: 32px var(--m); }
+    .founders .copy { grid-template-columns: 1fr; row-gap: 14px; margin-top: 20px; }
+    .founders .c1, .founders .col { grid-column: 1; padding-top: 0; }
+    .stack { grid-template-rows: auto 1fr; padding: 70px var(--m) 0; }
+    .stack .lead, .drum { grid-column: 1 / 7; }
+    .w { font-size: 12vw; }
+    .interiors { height: auto; display: grid; gap: 16px; padding: 24px var(--m) 80px; }
+    .interiors > * { position: static; width: 100% !important; }
+    .foot { grid-template-columns: 1fr; row-gap: 6px; }
+    .foot > :nth-child(n) { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <!-- 0 -->
+  <section class="intro" aria-label="Главная">
+    <nav class="topnav grid6"><a href="#works">Работы</a><a href="#masterclass">Мастер-классы</a></nav>
+    <div class="strip" aria-label="Работы студии">
+      <div class="slot" data-ar="0.8" style="--ar:4/5;--gr:#d9d7d3">06</div>
+      <div class="slot" data-ar="1" style="--ar:1/1;--gr:#cfcdc8">05</div>
+      <div class="slot" data-ar="0.75" style="--ar:3/4;--gr:#dedcd8">04</div>
+      <div class="slot" data-ar="1" style="--ar:1/1;--gr:#d3d1cc">03</div>
+      <div class="slot" data-ar="0.8" style="--ar:4/5;--gr:#c9c7c2">02</div>
+      <div class="slot" data-ar="0.75" style="--ar:3/4;--gr:#d6d4cf">01</div>
+    </div>
+    <nav class="menu grid6"><a href="#about">О студии</a><a href="https://dirtyhands.ru" target="_blank" rel="noopener">Магазин</a><a href="#contacts">Контакты</a></nav>
+  </section>
+
+  <!-- 1 -->
+  <section class="hero-wrap" id="works">
+    <div class="hero" aria-label="Dirty Hands">
+      <div class="rules" aria-hidden="true"></div>
+      <ol class="cats">
+        <li class="cat" style="--y:12%"><div class="body"><span class="num">01</span><p class="t">Барельефы на&nbsp;грани живописи и&nbsp;скульптуры</p></div><span class="date">барельефы</span></li>
+        <li class="cat" style="--y:21.5%"><div class="body"><span class="num">02</span><p class="t">Панно для&nbsp;ресторанов и&nbsp;частных интерьеров</p></div><span class="date">панно</span></li>
+        <li class="cat" style="--y:31%"><div class="body"><span class="num">03</span><p class="t">Предметы — одновременно искусство и&nbsp;вещь</p></div><span class="date">предметы</span></li>
+        <li class="cat" style="--y:40.5%"><div class="body"><span class="num">04</span><p class="t">Живописная плитка и&nbsp;зеркала в&nbsp;сюжетных рамах</p></div><span class="date">плитка</span></li>
+        <li class="cat" style="--y:50%"><div class="body"><span class="num">05</span><p class="t">Студия арт-керамики. Москва, с&nbsp;2019 года, только ручная работа</p></div><span class="date">студия</span></li>
+        <li class="cat" style="--y:59.5%"><div class="body"><span class="num">06</span><p class="t">Мастер-классы в&nbsp;мастерской на&nbsp;Павелецкой</p></div><span class="date">мастер-классы</span></li>
+      </ol>
+      <div class="panel gx" aria-hidden="true"></div>
+      <p class="t over gx" style="--k:2;top:72%">«Керамика ассоциируется с&nbsp;тарелочками и&nbsp;горшками.</p>
+      <p class="t over gx" style="--k:4;top:72%">Мы&nbsp;перенесли её в&nbsp;интерьер»</p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="founders" id="about">
+    <div class="ph photo" role="img" aria-label="Фото основателей">Фото основателей · 1756 × 836</div>
+    <div class="copy">
+      <p class="t2 c1">Елизавета Мартиросьян и&nbsp;Карен Юзбашян — основатели DirtyHands</p>
+      <div class="col">
+        <p class="t2">Елизавета окончила журфак РГГУ, работала на&nbsp;телевидении, потом училась в&nbsp;МАРХИ и&nbsp;стала дизайнером интерьеров.</p>
+        <p class="t2">Работа с&nbsp;интерьерами показала, как не&nbsp;хватает оригинального декора, — так появилась студия.</p>
+        <p class="t2">Карен родом из&nbsp;Ростова-на-Дону, вырос в&nbsp;Москве и&nbsp;окончил два вуза по&nbsp;специальностям, далёким от&nbsp;творчества.</p>
+        <a class="shop" href="https://dirtyhands.ru" target="_blank" rel="noopener">Go to the Shop</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="wheel-wrap" style="--n:7">
+    <div class="stack">
+      <p class="t lead">Глина — материал, который помнит каждое касание рук</p>
+      <div class="drum">
+        <ol class="words" aria-label="Что делает студия">
+          <li class="w">Барельефы</li>
+          <li class="w">Панно</li>
+          <li class="w">Плитка</li>
+          <li class="w">Зеркала</li>
+          <li class="w">Предметы</li>
+          <li class="w">Интерьеры</li>
+          <li class="w">Мастер-классы</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="interiors">
+    <p class="t2 cap gx gw">Мозаика-триптих DirtyHands — заметная деталь зала</p>
+    <div class="ph i1 gx gw" role="img" aria-label="Интерьер ресторана">Интерьер 1 · 870 × 616</div>
+    <p class="t2 cap2 gx gw">Панно, барельефы и&nbsp;плитка для&nbsp;интерьеров</p>
+    <div class="ph i2 gx gw" role="img" aria-label="Интерьер бара">Интерьер 2</div>
+    <div class="ph i3 gx gw" role="img" aria-label="Интерьер">Интерьер 3</div>
+  </section>
+
+  <footer class="foot grid6" id="contacts">
+    <p>DirtyHands — студия арт-керамики</p>
+    <p>2-й Павелецкий проезд, 7, Москва</p>
+    <a href="https://dirtyhands.ru" target="_blank" rel="noopener">dirtyhands.ru</a>
+  </footer>
+</main>
+
+<h1 class="title brand" aria-label="Dirty Hands">Dirty Hands</h1>
+<div class="grid-overlay grid6" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+
+<script src="dirt.js"></script>
+<script>
+  // ---------- strip -> stack -> categories, driven by scroll ----------
+  // 1) the strip cards fly into one stack on the picture slot of the second screen;
+  // 2) while the second screen is pinned, the top card slides away and opens the next category;
+  // 3) the picture drifts up/down per category and the points hug it along a circle, so they get pushed aside.
+  function scene() {
+    const ok = matchMedia('(min-width: 761px)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!ok) return;
+    document.documentElement.classList.add('fx');
+    const slots = [...document.querySelectorAll('.strip .slot')];
+    const wrap = document.querySelector('.hero-wrap'), hero = wrap.querySelector('.hero');
+    const target = hero.querySelector('.panel');
+    const cats = [...hero.querySelectorAll('.cat')];
+    const layer = document.createElement('div'); layer.className = 'fly'; layer.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(layer);
+    const ar = slots.map(s => parseFloat(s.dataset.ar));
+    const cards = slots.map((s, i) => {
+      const c = document.createElement('div'); c.className = 'card';
+      c.style.setProperty('--gr', s.style.getPropertyValue('--gr')); c.textContent = s.textContent;
+      c.style.zIndex = i; layer.appendChild(c); return c;
+    });
+    // the same stack inside the picture slot: shown once the cards have landed, so clay can go over it
+    const inner = slots.map((s, i) => {
+      const c = document.createElement('div'); c.className = 'card in';
+      c.style.setProperty('--gr', s.style.getPropertyValue('--gr')); c.style.aspectRatio = String(ar[i]);
+      c.textContent = s.textContent; c.style.zIndex = i; target.appendChild(c); return c;
+    });
+    const n = cards.length;
+    const drift = [-4.5, 3.2, -2.4, 3.8, -1.6, 0];                        // vertical drift of the picture per category, vw
+    const clamp = v => Math.min(1, Math.max(0, v));
+    const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const smooth = t => t * t * (3 - 2 * t);
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const catAr = c => ar[n - 1 - c];                                  // category c is shown by card n-1-c
+    function update() {
+      const top = wrap.offsetTop;
+      const P = scrollY / Math.max(1, top);                            // gather: 0 on the first screen, 1 when pinned
+      const Q = clamp((scrollY - top) / Math.max(1, wrap.offsetHeight - hero.offsetHeight));
+      const R = Q * (n - 1);                                           // categories played: 0..n-1
+      const c0 = Math.min(n - 2, Math.floor(R)), t = smooth(R - c0);
+      // the picture slot drifts and changes its proportion with the active category
+      target.style.transform = `translateY(${lerp(drift[c0], drift[c0 + 1], t) * innerWidth / 100}px)`;
+      target.style.aspectRatio = String(lerp(catAr(c0), catAr(c0 + 1), t));
+      const dst = target.getBoundingClientRect(), dcx = dst.left + dst.width / 2, dcy = dst.top + dst.height / 2;
+      // flying copies only while flying; at rest the real strip / the in-slot stack are shown (under the clay layer)
+      const atTop = P <= 0.002, landed = P >= 0.8;
+      layer.style.display = atTop || landed ? 'none' : '';      // display, not visibility: cards set their own visibility
+      slots.forEach(s => { s.style.visibility = atTop ? 'visible' : 'hidden'; });
+      target.style.visibility = landed ? 'visible' : 'hidden';
+      cards.forEach((c, i) => {
+        const src = slots[i].getBoundingClientRect();
+        const fw = dst.width, fh = dst.width / ar[i];                  // each card keeps its own proportion in the stack
+        const k = ease(clamp((P - i * 0.06) / 0.55)), arc = Math.sin(Math.PI * k);
+        const w = lerp(src.width, fw, k), h = lerp(src.height, fh, k);
+        const x = lerp(src.left + src.width / 2, dcx, k) - w / 2, y = lerp(src.top + src.height / 2, dcy, k) - h / 2 - arc * 70;
+        c.style.width = w + 'px'; c.style.height = h + 'px';
+        c.style.transform = `translate(${x}px, ${y}px) rotate(${arc * (i - (n - 1) / 2) * 5}deg)`;
+        const wipe = i === 0 ? 0 : clamp(R - (n - 1 - i));            // top card slides away like a shutter
+        c.style.clipPath = wipe > 0 ? `inset(0 0 ${wipe * 100}% 0)` : 'none';
+        c.style.visibility = wipe >= 1 ? 'hidden' : 'visible';
+        const ic = inner[i];
+        ic.style.clipPath = c.style.clipPath;
+        ic.style.visibility = landed && wipe < 1 ? 'visible' : 'hidden';
+      });
+      // points hug the picture: each block starts where it clears a circle around the picture
+      const hr = hero.getBoundingClientRect();
+      const cx = dcx - hr.left, cy = dcy - hr.top;
+      const Rc = Math.hypot(dst.width, dst.height) / 2 + innerWidth * 0.012;
+      const active = Math.round(R);
+      cats.forEach((cat, j) => {
+        const body = cat.firstElementChild, y0 = cat.offsetTop, h = body.offsetHeight;
+        const dy = Math.max(0, Math.abs(cy - Math.min(Math.max(cy, y0), y0 + h)));
+        const reach = dy < Rc ? Math.sqrt(Rc * Rc - dy * dy) : 0;
+        const x = cx + reach + innerWidth * 0.006;
+        body.style.left = '0px';
+        body.style.transform = `translateX(${x}px)`;
+        cat.classList.toggle('on', j === active);
+      });
+    }
+    let raf = 0;
+    const req = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); };
+    addEventListener('scroll', req, { passive: true });
+    addEventListener('resize', req);
+    update();
+  }
+
+  // ---------- wheel ----------
+  function wheel() {
+    const wrap = document.querySelector('.wheel-wrap'), stack = wrap.querySelector('.stack');
+    const items = [...wrap.querySelectorAll('.w')], n = items.length;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { document.documentElement.classList.add('no-wheel'); return; }
+    const STEP = 21 * Math.PI / 180;                                   // angle between neighbouring words
+    function update() {
+      const r = wrap.getBoundingClientRect(), span = Math.max(1, wrap.offsetHeight - innerHeight);
+      const p = Math.min(1, Math.max(0, -r.top / span)) * (n - 1);    // 0 = first word in the middle, n-1 = last
+      const pitch = items[0].offsetHeight * 1.12, R = pitch / STEP;   // drum radius so neighbours sit one line apart
+      items.forEach((el, i) => {
+        const d = i - p, a = d * STEP;
+        if (Math.abs(a) > 1.45) { el.style.visibility = 'hidden'; return; }
+        el.style.visibility = 'visible';
+        const y = Math.sin(a) * R;
+        el.style.transform = `translateY(calc(-50% + ${y}px)) scaleY(${Math.max(0.05, Math.cos(a))})`;   // drum: squashed toward the rims, no skew
+        const g = 11 + (232 - 11) * Math.min(1, Math.abs(d) / 2.2);   // visible grey: black in the middle, light at the edges
+        el.style.color = `rgb(${255 - g},${255 - g},${255 - g})`;      // the block is inverted (difference), so store 255 - g
+      });
+    }
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    update();
+  }
+
+  // Cmd+G (Mac) / Ctrl+G toggles the layout grid
+  addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'g' || e.code === 'KeyG' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      document.querySelector('.grid-overlay').classList.toggle('on');
+    }
+  });
+
+  // page width without the scrollbar drives the column maths
+  const setW = () => document.documentElement.style.setProperty('--W', document.documentElement.clientWidth + 'px');
+  setW(); addEventListener('resize', setW);
+
+  // the brand title stays pinned to the bottom until the end of the second block, then scrolls away with it
+  function brand() {
+    const el = document.querySelector('.brand'), wrap = document.querySelector('.hero-wrap');
+    const update = () => {
+      const end = wrap.offsetTop + wrap.offsetHeight, over = scrollY + innerHeight - end;
+      el.style.transform = over > 0 ? `translateY(${-over}px)` : '';
+    };
+    addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); update();
+  }
+
+  function start() {
+    scene();
+    wheel();
+    brand();
+    DirtyHands.init({ layer: document.body, surfaces: [document.querySelector('.hero')], seed: 7 });   // starts clean; marks fade away by themselves
+    window.ready = true;
+  }
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => requestAnimationFrame(start));
+</script>
+</body>
+</html>

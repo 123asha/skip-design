@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dirty Hands Layout</title>
+<style>
+  @font-face { font-family: "CoFo Sans"; src: url("CoFoSans-Regular450.woff2") format("woff2"); font-weight: 400 500; font-display: swap; }
+  :root { --bg: #fff; --ink: #000; --u: calc(var(--W, 100vw) / 1400); --ph: rgba(169,169,169,.15); --gray: #f2f2f2; --rule: #d9d9d9; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #fff; --ink: #000; } }
+  :root[data-theme="dark"] { --bg: #fff; --ink: #000; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); } html { overflow-x: clip; }
+  body { font-family: "CoFo Sans", -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: calc(18 * var(--u)); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  p { margin: 0; } a { color: inherit; text-decoration: none; }
+  .page { position: relative; width: 100%; height: calc(7823 * var(--u)); overflow: hidden; }
+  .page > * { position: absolute; }
+  .card2 > *, .list > *, .bigrow > * { position: absolute; }
+  .card2 > .rows, .card2 > .rules { position: absolute; }
+  .t { font-weight: 450; white-space: nowrap; }
+  .h1 { font-size: calc(164.21 * var(--u)); line-height: .92; letter-spacing: -.06em; }
+  .big { font-size: calc(200.7 * var(--u)); line-height: .91; letter-spacing: -.08em; }
+  .big2 { font-size: calc(108 * var(--u)); line-height: .91; letter-spacing: -.04em; }
+  .name { font-size: calc(52 * var(--u)); line-height: .91; letter-spacing: -.03em; }
+  .name2 { font-size: calc(108 * var(--u)); line-height: .91; letter-spacing: -.04em; }
+  .t18 { font-size: calc(18 * var(--u)); line-height: 1.08; letter-spacing: -.01em; }
+  .t18 b { font-weight: 450; }
+  .ph { background: var(--ph); }
+  .nav { display: flex; gap: calc(12 * var(--u)); font-size: calc(16 * var(--u)); }
+  .nav a { margin-right: calc(0 * var(--u)); }
+  .row { display: flex; gap: calc(31 * var(--u)); font-size: calc(18 * var(--u)); line-height: 1; letter-spacing: -.01em; position: absolute; }
+  .row p { width: calc(250 * var(--u)); }
+  .n { width: calc(40 * var(--u)); opacity: .3; font-size: calc(18 * var(--u)); line-height: .91; flex: none; }
+  .rules { pointer-events: none; }
+  .rules i { position: absolute; left: 0; right: 0; height: 0; border-top: 1px solid var(--rule); }
+  .rules.cap { z-index: 0; }
+  .card2 { background: #fff; }
+  .tick { display: block; height: calc(4 * var(--u)); background: #000; position: absolute; left: 0; top: 0; }
+  .gray { background: var(--gray); }
+  .shop:hover { text-decoration: underline; text-underline-offset: .2em; }
+  .bigrow { display: flex; justify-content: space-between; align-items: flex-start; }
+  .bigrow .name2 { position: static; }
+  .bigrow .cnt { opacity: 1; width: auto; }
+  .hl { position: absolute; left: calc(20 * var(--u)); right: calc(20 * var(--u)); border-top: 1px solid var(--ink); height: 0; }
+  .dot { position: absolute; width: calc(10 * var(--u)); height: calc(10 * var(--u)); background: #000; }
+  .bar { background: rgba(169,169,169,.35); }
+  /* sizes are authored in design pixels (u) */
+  [style*="u;"], [style*="u\""] { }
+</style>
+</head>
+<body>
+<main class="page">
+<div class="ph" style="left:calc(20.0 * var(--u));top:calc(20 * var(--u));width:calc(210.2 * var(--u));height:calc(262.7 * var(--u));" ></div>
+<div class="ph" style="left:calc(250.17 * var(--u));top:calc(20 * var(--u));width:calc(210.2 * var(--u));height:calc(210 * var(--u));" ></div>
+<div class="ph" style="left:calc(480.34 * var(--u));top:calc(20 * var(--u));width:calc(210.2 * var(--u));height:calc(262.7 * var(--u));" ></div>
+<div class="ph" style="left:calc(710.51 * var(--u));top:calc(20 * var(--u));width:calc(210.2 * var(--u));height:calc(210 * var(--u));" ></div>
+<div class="ph" style="left:calc(940.68 * var(--u));top:calc(20 * var(--u));width:calc(210.2 * var(--u));height:calc(262.7 * var(--u));" ></div>
+<div class="ph" style="left:calc(1170.85 * var(--u));top:calc(20 * var(--u));width:calc(210.2 * var(--u));height:calc(262.7 * var(--u));" ></div>
+<h1 class="t h1" style="left:calc(236 * var(--u));top:calc(587 * var(--u));" >Dirty Hands</h1>
+<nav class="nav" style="left:calc(941 * var(--u));top:calc(557 * var(--u))"><a href="#about">About</a><a href="#cases">Cases</a><a href="#events">Events</a></nav>
+<div class="rules" style="left:calc(20 * var(--u));top:calc(844 * var(--u));width:calc(1360 * var(--u));height:calc(720 * var(--u));" ><i style="top:calc(0 * var(--u))"></i><i style="top:calc(18 * var(--u))"></i><i style="top:calc(36 * var(--u))"></i><i style="top:calc(54 * var(--u))"></i><i style="top:calc(72 * var(--u))"></i><i style="top:calc(90 * var(--u))"></i><i style="top:calc(108 * var(--u))"></i><i style="top:calc(126 * var(--u))"></i><i style="top:calc(144 * var(--u))"></i><i style="top:calc(162 * var(--u))"></i><i style="top:calc(180 * var(--u))"></i><i style="top:calc(198 * var(--u))"></i><i style="top:calc(216 * var(--u))"></i><i style="top:calc(234 * var(--u))"></i><i style="top:calc(252 * var(--u))"></i><i style="top:calc(270 * var(--u))"></i><i style="top:calc(288 * var(--u))"></i><i style="top:calc(306 * var(--u))"></i><i style="top:calc(324 * var(--u))"></i><i style="top:calc(342 * var(--u))"></i><i style="top:calc(360 * var(--u))"></i><i style="top:calc(378 * var(--u))"></i><i style="top:calc(396 * var(--u))"></i><i style="top:calc(414 * var(--u))"></i><i style="top:calc(432 * var(--u))"></i><i style="top:calc(450 * var(--u))"></i><i style="top:calc(468 * var(--u))"></i><i style="top:calc(486 * var(--u))"></i><i style="top:calc(504 * var(--u))"></i><i style="top:calc(522 * var(--u))"></i><i style="top:calc(540 * var(--u))"></i><i style="top:calc(558 * var(--u))"></i><i style="top:calc(576 * var(--u))"></i><i style="top:calc(594 * var(--u))"></i><i style="top:calc(612 * var(--u))"></i><i style="top:calc(630 * var(--u))"></i><i style="top:calc(648 * var(--u))"></i><i style="top:calc(666 * var(--u))"></i><i style="top:calc(684 * var(--u))"></i><i style="top:calc(702 * var(--u))"></i><i style="top:calc(720 * var(--u))"></i></div>
+<div class="ph" style="left:calc(591 * var(--u));top:calc(1017 * var(--u));width:calc(218.5 * var(--u));height:calc(105.06 * var(--u));" ></div>
+<div class="ph" style="left:calc(591 * var(--u));top:calc(1122.06 * var(--u));width:calc(218.5 * var(--u));height:calc(105.06 * var(--u));" ></div>
+<div class="list" id="cases" style="left:calc(710 * var(--u));top:calc(916 * var(--u));width:calc(440 * var(--u))"><div class="row" style="left:calc(0 * var(--u));top:calc(0 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div><div class="row" style="left:calc(130 * var(--u));top:calc(72 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">02</span><p>Mirrors bring light and balance to your space with expressive sculptural forms.</p></div><div class="row" style="left:calc(130 * var(--u));top:calc(144 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">03</span><p>Compact side tables combine everyday function with distinctive design.</p></div><div class="row" style="left:calc(130 * var(--u));top:calc(216 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">04</span><p>Open shelving turns storage into a thoughtful display for books, art, and objects.</p></div><div class="row" style="left:calc(130 * var(--u));top:calc(288 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">05</span><p>Expressive sculptural forms bring a distinct presence to their surroundings.</p></div><div class="row" style="left:calc(130 * var(--u));top:calc(360 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">06</span><p>Architectural lines and expressive forms bring urban character to your space.</p></div><div class="row" style="left:calc(130 * var(--u));top:calc(432 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">07</span><p>Distinctive vessels hold flowers or stand beautifully as objects on their own.</p></div><div class="row" style="left:calc(130 * var(--u));top:calc(504 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">08</span><p>A warm glow and thoughtful form bring an intimate touch to your space.</p></div></div>
+<h2 class="t big" style="left:calc(20 * var(--u));top:calc(1835 * var(--u));width:calc(1360 * var(--u));text-align:center;z-index:0" >Dirty Hands</h2>
+<div class="gray" style="left:calc(20 * var(--u));top:calc(1948 * var(--u));width:calc(1360 * var(--u));height:calc(1360 * var(--u));" ></div>
+<div class="card2" style="left:calc(60 * var(--u));top:calc(2251 * var(--u));width:calc(440 * var(--u));height:calc(501 * var(--u));" ><span class="tick" style="width:calc(90 * var(--u))"></span><div class="rules" style="left:0;top:calc(22 * var(--u));width:calc(440 * var(--u))"><i style="top:calc(0 * var(--u))"></i><i style="top:calc(18 * var(--u))"></i><i style="top:calc(36 * var(--u))"></i><i style="top:calc(54 * var(--u))"></i><i style="top:calc(72 * var(--u))"></i><i style="top:calc(90 * var(--u))"></i><i style="top:calc(108 * var(--u))"></i><i style="top:calc(126 * var(--u))"></i><i style="top:calc(144 * var(--u))"></i><i style="top:calc(162 * var(--u))"></i><i style="top:calc(180 * var(--u))"></i><i style="top:calc(198 * var(--u))"></i><i style="top:calc(216 * var(--u))"></i><i style="top:calc(234 * var(--u))"></i><i style="top:calc(252 * var(--u))"></i><i style="top:calc(270 * var(--u))"></i><i style="top:calc(288 * var(--u))"></i><i style="top:calc(306 * var(--u))"></i><i style="top:calc(324 * var(--u))"></i><i style="top:calc(342 * var(--u))"></i><i style="top:calc(360 * var(--u))"></i></div><div class="rows" style="left:0;top:calc(17 * var(--u));width:calc(440 * var(--u));height:calc(270 * var(--u))"><div class="row" style="left:0;top:calc(0 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div><div class="row" style="left:0;top:calc(72 * var(--u));width:calc(440 * var(--u));gap:calc(60 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div><div class="row" style="left:0;top:calc(144 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div><div class="row" style="left:0;top:calc(216 * var(--u));width:calc(440 * var(--u));gap:calc(60 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div></div><p class="t name" style="left:0;top:calc(400 * var(--u))">Lisa</p><div class="rules" style="left:0;top:calc(465 * var(--u));width:calc(440 * var(--u))"><i style="top:calc(0 * var(--u))"></i><i style="top:calc(18 * var(--u))"></i><i style="top:calc(36 * var(--u))"></i></div></div>
+<div class="card2" style="left:calc(908 * var(--u));top:calc(2483 * var(--u));width:calc(440 * var(--u));height:calc(501 * var(--u));" ><span class="tick" style="width:calc(127 * var(--u))"></span><div class="rules" style="left:0;top:calc(22 * var(--u));width:calc(440 * var(--u))"><i style="top:calc(0 * var(--u))"></i><i style="top:calc(18 * var(--u))"></i><i style="top:calc(36 * var(--u))"></i><i style="top:calc(54 * var(--u))"></i><i style="top:calc(72 * var(--u))"></i><i style="top:calc(90 * var(--u))"></i><i style="top:calc(108 * var(--u))"></i><i style="top:calc(126 * var(--u))"></i><i style="top:calc(144 * var(--u))"></i><i style="top:calc(162 * var(--u))"></i><i style="top:calc(180 * var(--u))"></i><i style="top:calc(198 * var(--u))"></i><i style="top:calc(216 * var(--u))"></i><i style="top:calc(234 * var(--u))"></i><i style="top:calc(252 * var(--u))"></i><i style="top:calc(270 * var(--u))"></i><i style="top:calc(288 * var(--u))"></i><i style="top:calc(306 * var(--u))"></i><i style="top:calc(324 * var(--u))"></i><i style="top:calc(342 * var(--u))"></i><i style="top:calc(360 * var(--u))"></i></div><div class="rows" style="left:0;top:calc(17 * var(--u));width:calc(440 * var(--u));height:calc(270 * var(--u))"><div class="row" style="left:0;top:calc(0 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div><div class="row" style="left:0;top:calc(72 * var(--u));width:calc(440 * var(--u));gap:calc(60 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div><div class="row" style="left:0;top:calc(144 * var(--u));width:calc(440 * var(--u));gap:calc(31 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div><div class="row" style="left:0;top:calc(216 * var(--u));width:calc(440 * var(--u));gap:calc(60 * var(--u))"><span class="n">01</span><p>Artful wall compositions bring depth, texture, and character to your space.</p></div></div><p class="t name" style="left:0;top:calc(400 * var(--u))">Karen</p><div class="rules" style="left:0;top:calc(465 * var(--u));width:calc(440 * var(--u))"><i style="top:calc(0 * var(--u))"></i><i style="top:calc(18 * var(--u))"></i><i style="top:calc(36 * var(--u))"></i></div></div>
+<div class="t18" style="left:calc(20 * var(--u));top:calc(3360 * var(--u));width:calc(440 * var(--u));" id="about">About Dirty Hands</div>
+<p class="t18" style="left:calc(710 * var(--u));top:calc(3360 * var(--u));width:calc(440 * var(--u));" >At DirtyHands, we create original design pieces — from tabletop art objects and wall panels to sculptural forms and interior accents that enhance spaces and set their emotional tone.</p>
+<div class="ph" style="left:calc(583 * var(--u));top:calc(3524 * var(--u));width:calc(234 * var(--u));height:calc(225 * var(--u));" ></div>
+<p class="t18" style="left:calc(940 * var(--u));top:calc(3450 * var(--u));width:calc(440 * var(--u));" >The studio was founded by designers and entrepreneurs Lisa and Karen, who combine professional expertise with artistic intuition to bring unconventional ideas to life. Their approach reimagines ceramics, moving beyond functional plates and pots towards an artistic language that expresses the style, mood, and character of a space.</p>
+<a class="t18 shop" style="left:calc(940 * var(--u));top:calc(3604 * var(--u));" href="https://dirtyhands.ru" target="_blank" rel="noopener">Shop now →</a>
+<p class="t18" style="left:calc(20 * var(--u));top:calc(4131 * var(--u));" >Our Partners</p>
+<p class="t18" style="left:calc(250 * var(--u));top:calc(4131 * var(--u));" >type of space</p>
+<p class="t name2" style="left:calc(706 * var(--u));top:calc(3897 * var(--u));width:calc(674 * var(--u));" >The Greeks</p>
+<p class="t name2" style="left:calc(706 * var(--u));top:calc(4003 * var(--u));width:calc(674 * var(--u));" >Novikov</p>
+<p class="t name2" style="left:calc(706 * var(--u));top:calc(4109 * var(--u));width:calc(674 * var(--u));" >Club Brera</p>
+<p class="t name2" style="left:calc(706 * var(--u));top:calc(4215 * var(--u));width:calc(674 * var(--u));" >AVA</p>
+<p class="t name2" style="left:calc(706 * var(--u));top:calc(4321 * var(--u));width:calc(674 * var(--u));" >Rodina Moskva</p>
+<div class="ph" style="left:calc(690 * var(--u));top:calc(4694 * var(--u));width:calc(670 * var(--u));height:calc(536 * var(--u));" ></div>
+<span class="n" style="left:calc(623 * var(--u));top:calc(4657 * var(--u));position:absolute">01</span>
+<div class="rules cap" style="left:calc(643 * var(--u));top:calc(4694 * var(--u));width:calc(277 * var(--u));height:calc(57 * var(--u));" ><i style="top:calc(0 * var(--u))"></i><i style="top:calc(19 * var(--u))"></i><i style="top:calc(38 * var(--u))"></i><i style="top:calc(57 * var(--u))"></i></div>
+<p class="t18" style="left:calc(643 * var(--u));top:calc(4694 * var(--u));width:calc(277 * var(--u));" >Artful wall compositions bring depth, texture, and character to your space.</p>
+<div class="ph" style="left:calc(1283 * var(--u));top:calc(5395 * var(--u));width:calc(573 * var(--u));height:calc(458 * var(--u));" ></div>
+<div class="rules cap" style="left:calc(20 * var(--u));top:calc(5395 * var(--u));width:calc(670 * var(--u));height:calc(57 * var(--u));" ><i style="top:calc(0 * var(--u))"></i><i style="top:calc(19 * var(--u))"></i><i style="top:calc(38 * var(--u))"></i><i style="top:calc(57 * var(--u))"></i></div>
+<p class="t18" style="left:calc(480 * var(--u));top:calc(5395 * var(--u));width:calc(210 * var(--u));" >Artful wall compositions bring depth, texture, and character to your space.</p>
+<span class="n" style="left:calc(690 * var(--u));top:calc(5358 * var(--u));position:absolute">01</span>
+<div class="ph" style="left:calc(690 * var(--u));top:calc(6012 * var(--u));width:calc(670 * var(--u));height:calc(536 * var(--u));" ></div>
+<span class="n" style="left:calc(623 * var(--u));top:calc(5975 * var(--u));position:absolute">01</span>
+<div class="rules cap" style="left:calc(643 * var(--u));top:calc(6012 * var(--u));width:calc(277 * var(--u));height:calc(57 * var(--u));" ><i style="top:calc(0 * var(--u))"></i><i style="top:calc(19 * var(--u))"></i><i style="top:calc(38 * var(--u))"></i><i style="top:calc(57 * var(--u))"></i></div>
+<p class="t18" style="left:calc(643 * var(--u));top:calc(6012 * var(--u));width:calc(277 * var(--u));" >Artful wall compositions bring depth, texture, and character to your space.</p>
+<i class="hl" style="top:calc(6713 * var(--u))"></i>
+<i class="hl" style="top:calc(6803 * var(--u))"></i>
+<i class="hl" style="top:calc(6893 * var(--u))"></i>
+<i class="hl" style="top:calc(6983 * var(--u))"></i>
+<div class="bigrow" style="left:calc(20 * var(--u));top:calc(6716 * var(--u));width:calc(308 * var(--u));height:calc(98 * var(--u));" ><p class="t name2">Events</p><span class="n cnt">12</span></div>
+<div class="bigrow" style="left:calc(1012 * var(--u));top:calc(6803 * var(--u));width:calc(368 * var(--u));height:calc(98 * var(--u));" ><p class="t name2">Courses</p><span class="n cnt">3</span></div>
+<div class="bigrow" style="left:calc(581 * var(--u));top:calc(6893 * var(--u));width:calc(238 * var(--u));height:calc(98 * var(--u));" ><p class="t name2">Shop</p><span class="n cnt">232</span></div>
+<p class="t big2" style="left:calc(250 * var(--u));top:calc(7184 * var(--u));width:calc(440 * var(--u));" >Story</p>
+<p class="t18" style="left:calc(618 * var(--u));top:calc(7184 * var(--u));width:calc(285 * var(--u));" >At DirtyHands, we create original design pieces — from tabletop art objects</p>
+<p class="t18" style="left:calc(710 * var(--u));top:calc(7261 * var(--u));width:calc(210 * var(--u));" >At DirtyHands, we create original design pieces — from tabletop art objects</p>
+<p class="t18" style="left:calc(710 * var(--u));top:calc(7338 * var(--u));width:calc(210 * var(--u));" >At DirtyHands, we create original design pieces — from tabletop art objects</p>
+<p class="t18" style="left:calc(710 * var(--u));top:calc(7415 * var(--u));width:calc(210 * var(--u));" >At DirtyHands, we create original design pieces — from tabletop art objects</p>
+<p class="t18" style="left:calc(710 * var(--u));top:calc(7492 * var(--u));width:calc(210 * var(--u));" >At DirtyHands, we create original design pieces — from tabletop art objects</p>
+<p class="t18" style="left:calc(710 * var(--u));top:calc(7569 * var(--u));width:calc(210 * var(--u));" >At DirtyHands, we create original design pieces — from tabletop art objects</p>
+<div class="dot" style="left:calc(613 * var(--u));top:calc(7323 * var(--u));width:calc(10 * var(--u));height:calc(10 * var(--u));" ></div>
+<div class="dot" style="left:calc(613 * var(--u));top:calc(7398 * var(--u));width:calc(10 * var(--u));height:calc(10 * var(--u));" ></div>
+<div class="ph bar" style="left:calc(20 * var(--u));top:calc(7783 * var(--u));width:calc(210 * var(--u));height:calc(20 * var(--u));" ></div>
+<div class="ph bar" style="left:calc(250 * var(--u));top:calc(7783 * var(--u));width:calc(210 * var(--u));height:calc(20 * var(--u));" ></div>
+<div class="ph bar" style="left:calc(480 * var(--u));top:calc(7783 * var(--u));width:calc(210 * var(--u));height:calc(20 * var(--u));" ></div>
+<div class="ph bar" style="left:calc(710 * var(--u));top:calc(7783 * var(--u));width:calc(210 * var(--u));height:calc(20 * var(--u));" ></div>
+<div class="ph bar" style="left:calc(940 * var(--u));top:calc(7783 * var(--u));width:calc(210 * var(--u));height:calc(20 * var(--u));" ></div>
+<div class="ph bar" style="left:calc(1170 * var(--u));top:calc(7783 * var(--u));width:calc(211 * var(--u));height:calc(20 * var(--u));" ></div>
+</main>
+<script>
+  const setW = () => document.documentElement.style.setProperty('--W', document.documentElement.clientWidth + 'px');
+  setW(); addEventListener('resize', setW);
+</script>
+</body>
+</html>

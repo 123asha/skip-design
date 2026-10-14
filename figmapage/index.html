@@ -5,26 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dirty Hands Layout</title>
 <style>
-  @font-face { font-family: "CoFo Sans"; src: url("CoFoSans-Regular450.woff2") format("woff2"); font-weight: 400 500; font-display: swap; }
+  @font-face { font-family: "CoFo Sans"; src: url("CoFoSans-VF.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
   :root { --bg: #fff; --ink: #000; --u: calc(var(--W, 100vw) / 1400); --ph: rgba(169,169,169,.15); --gray: #f2f2f2; --rule: #d9d9d9; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #fff; --ink: #000; } }
   :root[data-theme="dark"] { --bg: #fff; --ink: #000; }
   * { box-sizing: border-box; }
   html, body { margin: 0; background: var(--bg); color: var(--ink); } html { overflow-x: clip; }
   body { font-family: "CoFo Sans", -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: calc(18 * var(--u)); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-  p, h1, h2 { margin: 0; font-weight: 450; } a { color: inherit; text-decoration: none; }
+  p, h1, h2 { margin: 0; font-weight: 400; } a { color: inherit; text-decoration: none; }
   .page { position: relative; width: 100%; height: calc(7823 * var(--u)); overflow: hidden; }
   .page > * { position: absolute; }
   .card2 > *, .list > *, .bigrow > * { position: absolute; }
   .card2 > .rows, .card2 > .rules { position: absolute; }
-  .t { font-weight: 450; white-space: nowrap; }
+  .t { font-weight: 400; white-space: nowrap; }
   .h1 { font-size: calc(200.7 * var(--u)); line-height: .91; letter-spacing: -.08em; }
   .big { font-size: calc(200.7 * var(--u)); line-height: .91; letter-spacing: -.08em; }
   .big2 { font-size: calc(108 * var(--u)); line-height: .91; letter-spacing: -.04em; }
   .name { font-size: calc(52 * var(--u)); line-height: .91; letter-spacing: -.03em; }
   .name2 { font-size: calc(108 * var(--u)); line-height: .91; letter-spacing: -.04em; }
   .t18 { font-size: calc(18 * var(--u)); line-height: 1.08; letter-spacing: -.01em; }
-  .t18 b { font-weight: 450; }
+  .t18 b { font-weight: 400; }
   .ph { background: var(--ph); }
   .nav { display: flex; gap: calc(12 * var(--u)); font-size: calc(18 * var(--u)); line-height: .91; letter-spacing: -.01em; }
   .nav a { margin-right: calc(0 * var(--u)); }
